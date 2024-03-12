@@ -1,7 +1,5 @@
 const { network } = require("hardhat")
-
-const DECIMALS = "8"
-const INITIAL_PRICE = "200000000000" // 2000
+const { DECIMALS, INITIAL_PRICE } = require("../helper-hardhat-config") //从helper-hardhat-config导入两个变量
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
@@ -13,7 +11,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             contract: "MockV3Aggregator",
             from: deployer,
             log: true,
-            args: [DECIMALS, INITIAL_PRICE],
+            args: [DECIMALS, INITIAL_PRICE], //两个参数分别代表精确的小数位和初始价格
         })
         log("Mocks Deployed!")
         log("------------------------------------------------")
@@ -26,4 +24,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         log("------------------------------------------------")
     }
 }
-module.exports.tags = ["all", "mocks"]
+module.exports.tags = ["all", "mocks"] //你可以运行带有特定标签的任务，而不运行其他任务，或者只部署带有特定标签的合约

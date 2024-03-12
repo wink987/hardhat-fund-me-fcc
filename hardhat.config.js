@@ -1,4 +1,3 @@
-require("@nomiclabs/hardhat-waffle")
 require("hardhat-gas-reporter")
 require("@nomiclabs/hardhat-etherscan")
 require("dotenv").config()
@@ -10,17 +9,14 @@ require("hardhat-deploy")
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
-const SEPOLIA_RPC_URL =
-    process.env.SEPOLIA_RPC_URL ||
-    "https://eth-sepolia.g.alchemy.com/v2/YOUR-API-KEY"
-const PRIVATE_KEY =
-    process.env.PRIVATE_KEY ||
-    "0x11ee3108a03081fe260ecdc106554d09d9d1209bcafd46942b10e02943effc4a"
-const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || ""
+const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY //https://pro.coinmarketcap.com/account/
+const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL
+//"https://eth-sepolia.g.alchemy.com/v2/YOUR-API-KEY"
+const PRIVATE_KEY = process.env.PRIVATE_KEY
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY //"https://etherscan.io/myapikey"
 
 module.exports = {
-    defaultNetwork: "hardhat",
+    defaultNetwork: "hardhat", //不指定的话就默认hardhat网络
     networks: {
         hardhat: {
             chainId: 31337,
@@ -34,6 +30,7 @@ module.exports = {
         },
     },
     solidity: {
+        //使用多个版本的solidity编译器
         compilers: [
             {
                 version: "0.8.7",
@@ -45,19 +42,19 @@ module.exports = {
     },
     etherscan: {
         apiKey: ETHERSCAN_API_KEY,
-        // customChains: [], // uncomment this line if you are getting a TypeError: customChains is not iterable
+        customChains: [], // uncomment this line if you are getting a TypeError: customChains is not iterable
     },
     gasReporter: {
-        enabled: true,
+        enabled: false,
         currency: "USD",
         outputFile: "gas-report.txt",
         noColors: true,
-        // coinmarketcap: COINMARKETCAP_API_KEY,
+        coinmarketcap: COINMARKETCAP_API_KEY, //生成花费表格的，各种币和usd的转换
     },
     namedAccounts: {
         deployer: {
-            default: 0, // here this will by default take the first account as deployer
-            1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
+            default: 0, // 默认使用第一个账户
+            11155111: 0, // 使用sepolia时，默认使用第一个账户的私钥
         },
     },
     mocha: {
